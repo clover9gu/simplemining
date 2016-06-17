@@ -3,7 +3,7 @@ import matplotlib
 matplotlib.use('TKAgg')
 from mlxtend.data import iris_data
 from mlxtend.data import mnist_data
-from mlxtend.classifier import MultiLayerPerceptron as MLP
+from mlxtend.tf_classifier import TfMultiLayerPerceptron
 from mlxtend.evaluate import plot_decision_regions
 from mlxtend.preprocessing import shuffle_arrays_unison, standardize
 
@@ -21,16 +21,15 @@ print X_std
 
 # Gradient Descent
 
-nn1 = MLP(hidden_layers=[50],
-          l2 = 0.00,
-          l1 = 0.0,
-          epochs=150,
-          eta=0.05,
-          momentum=0.1,
-          decrease_const=0.0,
-          minibatches=1,
-          random_seed=1,
-          print_progress=3)
+nn1 = TfMultiLayerPerceptron(eta=0.5,
+                             epochs=20,
+                             hidden_layers=[10],
+                             activations=['logistic'],
+                             optimizer='gradientdescent',
+                             print_progress=3,
+                             minibatches=1,
+                             random_seed=1)
+
 
 nn1 = nn1.fit(X_std, y)
 fig = plot_decision_regions(X=X_std, y=y, clf=nn1, legend=2)
@@ -47,16 +46,14 @@ print 'Accuracy: %.2f%%' % (100 * nn1.score(X_std, y))
 
 # Stochastic Gradient Descent
 
-nn2 = MLP(hidden_layers=[50],
-          l2=0.00,
-          l1=0.0,
-          epochs=5,
-          eta=0.005,
-          momentum=0.1,
-          decrease_const=0.0,
-          minibatches=len(y),
-          random_seed=1,
-          print_progress=3)
+nn2 = TfMultiLayerPerceptron(eta=0.5,
+                             epochs=20,
+                             hidden_layers=[10],
+                             activations=['logistic'],
+                             optimizer='gradientdescent',
+                             print_progress=3,
+                             minibatches=len(y),
+                             random_seed=1)
 nn2.fit(X_std, y)
 
 fig = plot_decision_regions(X=X_std, y=y, clf=nn2, legend=2)

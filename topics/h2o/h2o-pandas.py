@@ -3,7 +3,7 @@
 from h2o import H2OFrame
 import h2o as h2o
 
-localH2O = h2o.init(ip='192.168.1.101', port=54321)
+localH2O = h2o.init()
 air = H2OFrame.from_csv(localH2O, "allyears_tiny.csv", index_col = False)
 print(air.head())
 
